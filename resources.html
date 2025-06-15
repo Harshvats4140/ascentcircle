@@ -1,0 +1,171 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Resources - The Ascent Circle</title>
+    
+    <!-- Google Fonts & Font Awesome -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;600;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.2/css/all.min.css">
+    
+    <!-- Link to your final stylesheet -->
+    <link rel="stylesheet" href="style.css">
+</head>
+<body class="dashboard-body">
+    <div class="dashboard-container">
+        <!-- ===== Sidebar Navigation ===== -->
+        <aside class="dashboard-sidebar">
+            <a href="index.html" class="sidebar-logo">
+                <img src="assets/images/ascentcirclelogo.png" alt="The Ascent Circle Logo">
+            </a>
+            <nav class="sidebar-nav">
+                <a href="dashboard.html" class="sidebar-link"><i class="fas fa-home"></i><span>Dashboard</span></a>
+                <a href="resources.html" class="sidebar-link active"><i class="fas fa-book-open"></i><span>Resources</span></a>
+                <a href="#" class="sidebar-link"><i class="fas fa-comments"></i><span>Forum</span></a>
+                <a href="#" class="sidebar-link"><i class="fas fa-briefcase"></i><span>Jobs Board</span></a>
+                <a href="index.html#wall-of-fame" class="sidebar-link"><i class="fas fa-star"></i><span>Wall of Fame</span></a>
+            </nav>
+            <div class="sidebar-profile">
+                <img src="https://placehold.co/50x50/e0e0e0/333?text=U" alt="User Avatar" id="user-avatar">
+                <div class="profile-info">
+                    <strong id="sidebar-user-name">[User Name]</strong>
+                    <span id="sidebar-user-role" class="role-badge role-user">User</span>
+                </div>
+            </div>
+            <div class="sidebar-footer">
+                <a href="#" id="logout-btn" class="sidebar-link"><i class="fas fa-sign-out-alt"></i><span>Logout</span></a>
+            </div>
+        </aside>
+
+        <!-- ===== Main Resource Marketplace Content ===== -->
+        <main class="dashboard-main">
+            <header class="dashboard-header">
+                <h1>Resource Marketplace</h1>
+                <p>Access notes, past papers, and study guides shared by the community.</p>
+            </header>
+
+            <!-- Filters and Search Bar -->
+            <div class="resource-filters">
+                <div class="search-bar">
+                    <i class="fas fa-search"></i>
+                    <input type="text" id="search-input" placeholder="Search for resources...">
+                </div>
+                <select id="category-filter">
+                    <option value="all">All Categories</option>
+                    <option value="cs">Computer Science</option>
+                    <option value="mech">Mechanical Eng.</option>
+                    <option value="ece">Electronics</option>
+                    <option value="misc">Miscellaneous</option>
+                </select>
+            </div>
+
+            <!-- Resource Grid -->
+            <div class="resource-grid" id="resource-grid">
+                <!-- "Contribute" Card - A Permanent Call to Action -->
+                <div class="resource-card contribute-card">
+                    <i class="fas fa-plus-circle"></i>
+                    <h3>Have Something to Share?</h3>
+                    <p>Contribute your notes and help the community grow. You'll earn points and recognition!</p>
+                    <a href="dashboard.html#contributions" class="btn btn-primary">Upload Now</a>
+                </div>
+
+                <!-- Sample Loading State (will be replaced by JS) -->
+                <div class="resource-card is-loading"></div>
+                <div class="resource-card is-loading"></div>
+                <div class="resource-card is-loading"></div>
+                
+                <!-- Approved resources will be dynamically inserted here by JavaScript -->
+            </div>
+        </main>
+    </div>
+
+    <!-- Firebase SDKs and custom script -->
+    <script src="https://www.gstatic.com/firebasejs/8.10.1/firebase-app.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/8.10.1/firebase-auth.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/8.10.1/firebase-firestore.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/8.10.1/firebase-storage.js"></script>
+    <script src="firebase.js"></script>
+    <script>
+        document.addEventListener('DOMContentLoaded', () => {
+            const resourceGrid = document.getElementById('resource-grid');
+            
+            // --- Authentication Guard ---
+            auth.onAuthStateChanged(async (user) => {
+                if (!user) {
+                    console.log('No user logged in. Redirecting to login.');
+                    window.location.href = 'login.html';
+                    return;
+                }
+
+                const userData = await getUserData(user.uid);
+                if (!userData) {
+                    console.error('User data not found in Firestore.');
+                    window.location.href = 'login.html';
+                    return;
+                }
+                
+                // Populate sidebar profile
+                document.getElementById('sidebar-user-name').textContent = userData.name;
+                const roleBadge = document.getElementById('sidebar-user-role');
+                roleBadge.textContent = userData.role;
+                roleBadge.className = `role-badge role-${userData.role}`;
+
+                // --- Load Approved Resources ---
+                loadApprovedResources();
+            });
+
+            async function loadApprovedResources() {
+                // Clear loading skeletons but keep the "Contribute" card
+                resourceGrid.innerHTML = document.querySelector('.contribute-card').outerHTML;
+
+                try {
+                    const snapshot = await db.collection('studyMaterials')
+                                             .where('status', '==', 'approved')
+                                             .orderBy('createdAt', 'desc')
+                                             .get();
+
+                    if (snapshot.empty) {
+                        const noDataDiv = document.createElement('div');
+                        noDataDiv.className = 'empty-state';
+                        noDataDiv.innerHTML = `<i class="fas fa-folder-open"></i><p>No resources found. Be the first to contribute!</p>`;
+                        resourceGrid.appendChild(noDataDiv);
+                        return;
+                    }
+
+                    snapshot.forEach(doc => {
+                        const material = doc.data();
+                        const card = document.createElement('div');
+                        card.className = 'resource-card';
+                        
+                        // Simple icon logic based on title or a default
+                        let iconClass = 'fa-file-alt'; // Default icon
+                        if (material.title.toLowerCase().includes('pdf')) iconClass = 'fa-file-pdf';
+                        if (material.title.toLowerCase().includes('notes')) iconClass = 'fa-file-word';
+                        
+                        card.innerHTML = `
+                            <i class="fas ${iconClass}"></i>
+                            <h4>${material.title}</h4>
+                            <p class="meta-data">Uploaded by: <strong>${material.uploaderName || 'Anonymous'}</strong></p>
+                            <a href="${material.fileURL}" target="_blank" class="btn btn-secondary" download>Download</a>
+                        `;
+                        resourceGrid.appendChild(card);
+                    });
+                } catch (error) {
+                    console.error("Error loading resources: ", error);
+                    resourceGrid.innerHTML += `<p class="error-message">Could not load resources. Please try again later.</p>`;
+                }
+            }
+            
+            // --- Logout Button ---
+            document.getElementById('logout-btn').addEventListener('click', async (e) => {
+                e.preventDefault();
+                await logoutUser();
+                window.location.href = 'index.html';
+            });
+        });
+    </script>
+</body>
+</html>

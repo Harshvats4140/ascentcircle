@@ -1,0 +1,258 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Dashboard - The Ascent Circle</title>
+    
+    <!-- Google Fonts & Font Awesome -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;600;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.2/css/all.min.css">
+    
+    <!-- Link to your final stylesheet -->
+    <link rel="stylesheet" href="style.css">
+</head>
+<body class="dashboard-body">
+    <div class="dashboard-container">
+        <!-- ===== Sidebar Navigation ===== -->
+        <aside class="dashboard-sidebar">
+            <a href="index.html" class="sidebar-logo">
+                <img src="assets/images/ascentcirclelogo.png" alt="The Ascent Circle Logo">
+            </a>
+            <!-- ===== New, Complete Sidebar Navigation ===== -->
+<nav class="sidebar-nav">
+    <a href="dashboard.html" class="sidebar-link active" data-target="dashboard-view"><i class="fas fa-home"></i><span>Dashboard</span></a>
+    <a href="forum.html" class="sidebar-link" data-target="forum-view"><i class="fas fa-comments"></i><span>Discussion Hub</span></a>
+    <a href="resources.html" class="sidebar-link" data-target="resources-view"><i class="fas fa-book-open"></i><span>Resource Marketplace</span></a>
+    <a href="projects.html" class="sidebar-link" data-target="projects-view"><i class="fas fa-project-diagram"></i><span>Project Incubator</span></a>
+    <a href="#" class="sidebar-link" data-target="profile-view"><i class="fas fa-user-cog"></i><span>My Profile</span></a>
+</nav>
+
+            <div class="sidebar-profile">
+                <img src="https://placehold.co/50x50/e0e0e0/333?text=U" alt="User Avatar" id="user-avatar">
+                <div class="profile-info">
+                    <strong id="sidebar-user-name">[User Name]</strong>
+                    <span id="sidebar-user-role" class="role-badge role-user">User</span>
+                </div>
+            </div>
+            <div class="sidebar-footer">
+                <a href="#" id="logout-btn" class="sidebar-link"><i class="fas fa-sign-out-alt"></i><span>Logout</span></a>
+            </div>
+        </aside>
+
+        <!-- ===== Main Dashboard Content ===== -->
+        <main class="dashboard-main">
+            <header class="dashboard-header">
+                <h1 id="welcome-message">Welcome, [User]!</h1>
+                <p>Manage your profile, settings, and contributions to the community.</p>
+            </header>
+
+            <!-- Overview Content Pane -->
+            <div id="overview" class="dashboard-content-pane active">
+                <div class="dashboard-grid">
+                    <div class="dashboard-card whatsapp-card">
+                        <i class="fab fa-whatsapp"></i>
+                        <h3 id="whatsapp-group-title">[Year] Year WhatsApp Group</h3>
+                        <p>Connect with your peers and stay updated.</p>
+                        <a href="#" id="whatsapp-group-link" class="btn btn-primary">Join Now</a>
+                    </div>
+                    <div class="dashboard-card leaderboard-card">
+                        <h3>Top Contributors</h3>
+                        <p>Earn points by uploading resources and helping others!</p>
+                        <ol id="leaderboard-list">
+                            <!-- Leaderboard will be populated by JS -->
+                            <li>Loading...</li>
+                        </ol>
+                    </div>
+                </div>
+            </div>
+
+            <!-- My Contributions Content Pane -->
+            <div id="contributions" class="dashboard-content-pane">
+                <div class="settings-grid">
+                    <div class="card upload-card">
+                        <h3>Upload Study Material</h3>
+                        <p>Share notes and earn points! Your contribution will be reviewed by an admin.</p>
+                        <form id="upload-form" class="settings-form">
+                            <div class="form-group"><label for="material-title">Title</label><input type="text" id="material-title" placeholder="e.g., Data Structures Mid-Term Notes" required></div>
+                            <div class="form-group"><label for="material-description">Description</label><textarea id="material-description" rows="3" placeholder="Briefly describe the content (e.g., Covers units 1-3)" required></textarea></div>
+                            <div class="form-group"><label for="material-file">File (PDF, DOCX)</label><input type="file" id="material-file" required></div>
+                            <button type="submit" class="btn btn-primary">Upload & Earn 10 Points</button>
+                            <div id="upload-status" class="form-message"></div>
+                        </form>
+                    </div>
+                    <div class="card">
+                        <h3>Your Upload History</h3>
+                        <table class="admin-table" id="contributions-table">
+                            <thead><tr><th>Title</th><th>Status</th></tr></thead>
+                            <tbody id="contributions-table-body">
+                                <!-- Contribution history will be loaded here by JS -->
+                                <tr><td colspan="2">Loading your contributions...</td></tr>
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Account Settings Content Pane -->
+            <div id="settings" class="dashboard-content-pane">
+                <div class="settings-grid">
+                    <div class="card">
+                        <h3>Change Password</h3>
+                        <form id="password-change-form" class="settings-form">
+                            <div class="form-group"><label>New Password</label><input type="password" id="new-password" placeholder="Minimum 6 characters" required></div>
+                            <button type="submit" class="btn btn-primary">Update Password</button>
+                        </form>
+                    </div>
+                    <div class="card">
+                        <h3>Update Contact Info</h3>
+                        <form id="info-update-form" class="settings-form">
+                            <div class="form-group"><label>Email Address</label><input type="email" id="setting-email" required></div>
+                            <div class="form-group"><label>Phone Number</label><input type="tel" id="setting-phone" required></div>
+                            <button type="submit" class="btn btn-primary">Save Changes</button>
+                        </form>
+                    </div>
+                </div>
+            </div>
+        </main>
+    </div>
+
+    <!-- Firebase SDKs -->
+    <script src="https://www.gstatic.com/firebasejs/8.10.1/firebase-app.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/8.10.1/firebase-auth.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/8.10.1/firebase-firestore.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/8.10.1/firebase-storage.js"></script>
+    <script src="firebase.js"></script>
+    
+    <!-- Page-specific JavaScript -->
+    <script>
+        document.addEventListener('DOMContentLoaded', () => {
+            const uploadStatusDiv = document.getElementById('upload-status');
+            
+            // --- Authentication Guard & Data Loading ---
+            auth.onAuthStateChanged(async (user) => {
+                if (!user) {
+                    window.location.href = 'login.html';
+                    return;
+                }
+
+                const userData = await getUserData(user.uid);
+                if (!userData) {
+                    await auth.signOut();
+                    window.location.href = 'login.html';
+                    return;
+                }
+
+                populateDashboard(userData);
+                setupEventListeners(user, userData);
+                listenForLeaderboard(renderLeaderboard);
+                loadUserContributions(user.uid);
+            });
+            
+            function populateDashboard(userData) {
+                document.getElementById('welcome-message').textContent = `Welcome, ${userData.name}!`;
+                document.getElementById('sidebar-user-name').textContent = userData.name;
+                const roleBadge = document.getElementById('sidebar-user-role');
+                roleBadge.textContent = userData.role;
+                roleBadge.className = `role-badge role-${userData.role}`;
+                
+                document.getElementById('setting-email').value = userData.email;
+                document.getElementById('setting-phone').value = userData.phone;
+                
+                const yearSuffix = { '1': 'st', '2': 'nd', '3': 'rd', '4': 'th' }[userData.year] || 'th';
+                document.getElementById('whatsapp-group-title').textContent = `${userData.year}${yearSuffix} Year WhatsApp Group`;
+            }
+
+            function setupEventListeners(user, userData) {
+                // Tab Navigation
+                const sidebarLinks = document.querySelectorAll('.sidebar-link');
+                sidebarLinks.forEach(link => {
+                    link.addEventListener('click', e => {
+                        const targetId = link.getAttribute('data-target');
+                        if (!targetId) return;
+                        e.preventDefault();
+                        document.querySelectorAll('.sidebar-link').forEach(item => item.classList.remove('active'));
+                        link.classList.add('active');
+                        document.querySelectorAll('.dashboard-content-pane').forEach(pane => pane.classList.remove('active'));
+                        document.getElementById(targetId).classList.add('active');
+                    });
+                });
+
+                // Forms
+                document.getElementById('info-update-form').addEventListener('submit', async e => {
+                    e.preventDefault();
+                    const newEmail = document.getElementById('setting-email').value;
+                    const newPhone = document.getElementById('setting-phone').value;
+                    try {
+                        if (newEmail !== user.email) await user.updateEmail(newEmail);
+                        await updateUserProfile(user.uid, { email: newEmail, phone: newPhone });
+                        alert('Profile updated successfully!');
+                    } catch (error) { alert(`Update failed: ${error.message}`); }
+                });
+
+                document.getElementById('password-change-form').addEventListener('submit', async e => {
+                    e.preventDefault();
+                    const newPassword = document.getElementById('new-password').value;
+                    try {
+                        await user.updatePassword(newPassword);
+                        alert('Password updated successfully!');
+                        e.target.reset();
+                    } catch (error) { alert(`Password update failed: ${error.message}`); }
+                });
+
+                document.getElementById('upload-form').addEventListener('submit', async e => {
+                    e.preventDefault();
+                    const file = document.getElementById('material-file').files[0];
+                    const title = document.getElementById('material-title').value;
+                    const description = document.getElementById('material-description').value;
+                    if (!file || !title || !description) return;
+                    
+                    uploadStatusDiv.textContent = 'Uploading...';
+                    uploadStatusDiv.style.display = 'block';
+                    try {
+                        await uploadStudyMaterial(file, title, description, user.uid, userData.name);
+                        await addUserPoints(user.uid, 10);
+                        uploadStatusDiv.textContent = 'Success! File uploaded for review. You earned 10 points!';
+                        e.target.reset();
+                        setTimeout(() => { uploadStatusDiv.style.display = 'none'; }, 5000);
+                        loadUserContributions(user.uid); // Refresh contribution list
+                    } catch (error) {
+                        uploadStatusDiv.textContent = `Upload failed: ${error.message}`;
+                    }
+                });
+                
+                // Logout
+                document.getElementById('logout-btn').addEventListener('click', e => { e.preventDefault(); logoutUser(); });
+            }
+
+            function renderLeaderboard(leaderboardData) {
+                const list = document.getElementById('leaderboard-list');
+                list.innerHTML = '';
+                leaderboardData.forEach(user => {
+                    const li = document.createElement('li');
+                    li.innerHTML = `<span>${user.name}</span><span>${user.points} pts</span>`;
+                    list.appendChild(li);
+                });
+            }
+
+            function loadUserContributions(uid) {
+                const tableBody = document.getElementById('contributions-table-body');
+                db.collection('studyMaterials').where('uploaderUid', '==', uid).orderBy('createdAt', 'desc').onSnapshot(snapshot => {
+                    if(snapshot.empty) {
+                        tableBody.innerHTML = '<tr><td colspan="2">You have not uploaded any materials yet.</td></tr>';
+                        return;
+                    }
+                    tableBody.innerHTML = '';
+                    snapshot.forEach(doc => {
+                        const data = doc.data();
+                        const row = `<tr><td>${data.title}</td><td><span class="role-badge role-${data.status}">${data.status}</span></td></tr>`;
+                        tableBody.innerHTML += row;
+                    });
+                });
+            }
+        });
+    </script>
+</body>
+</html>

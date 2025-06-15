@@ -1,0 +1,96 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Discussion Hub - The Ascent Circle</title>
+    <link rel="stylesheet" href="style.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.2/css/all.min.css">
+</head>
+<body class="dashboard-body">
+    <div class="dashboard-container">
+        <!-- Your Standard Dashboard Sidebar (from Step 1B) -->
+        <aside class="dashboard-sidebar">
+            <!-- Sidebar content here -->
+        </aside>
+
+        <main class="dashboard-main">
+            <header class="dashboard-header">
+                <h1>Discussion Hub</h1>
+                <p>Ask questions, share knowledge, and connect with the community.</p>
+            </header>
+
+            <div class="forum-actions">
+                <button id="create-post-btn" class="btn btn-primary"><i class="fas fa-plus"></i> Create New Post</button>
+                <div class="filter-controls">
+                    <select id="category-filter">
+                        <option value="all">All Categories</option>
+                        <option value="web-dev">Web Development</option>
+                        <option value="ai-ml">AI/ML</option>
+                        <option value="interview-prep">Interview Prep</option>
+                    </select>
+                </div>
+            </div>
+
+            <div class="forum-posts-container card">
+                <!-- Forum posts will be dynamically inserted here by JavaScript -->
+                <div id="posts-list">
+                    <!-- Example Post Structure -->
+                    <div class="post-item">
+                        <div class="post-details">
+                            <a href="post.html?id=123" class="post-title">How do you prepare for a FAANG frontend interview?</a>
+                            <p class="post-meta">Asked by <strong>Alex Morgan</strong> in <span class="post-category">Interview Prep</span> &bull; 12 replies</p>
+                        </div>
+                        <div class="post-stats">
+                            <span><i class="fas fa-thumbs-up"></i> 42</span>
+                            <span><i class="fas fa-comment"></i> 12</span>
+                        </div>
+                    </div>
+                    <!-- End Example -->
+                </div>
+            </div>
+        </main>
+    </div>
+
+    <!-- Firebase SDKs -->
+    <script src="https://www.gstatic.com/firebasejs/8.10.1/firebase-app.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/8.10.1/firebase-firestore.js"></script>
+    <script src="firebase.js"></script>
+    <script>
+        document.addEventListener('DOMContentLoaded', async () => {
+            const postsList = document.getElementById('posts-list');
+            
+            // Function to fetch and render posts from Firestore
+            async function loadPosts() {
+                postsList.innerHTML = '<p>Loading discussions...</p>';
+                const snapshot = await db.collection('posts').orderBy('createdAt', 'desc').get();
+                postsList.innerHTML = ''; // Clear loading message
+                
+                if (snapshot.empty) {
+                    postsList.innerHTML = '<p>No discussions yet. Be the first to start one!</p>';
+                    return;
+                }
+                
+                snapshot.forEach(doc => {
+                    const post = doc.data();
+                    const postElement = document.createElement('div');
+                    postElement.className = 'post-item';
+                    postElement.innerHTML = `
+                        <div class="post-details">
+                            <a href="post.html?id=${doc.id}" class="post-title">${post.title}</a>
+                            <p class="post-meta">Asked by <strong>${post.authorName}</strong> in <span class="post-category">${post.category}</span></p>
+                        </div>
+                        <div class="post-stats">
+                            <span><i class="fas fa-thumbs-up"></i> ${post.upvotes?.length || 0}</span>
+                            <span><i class="fas fa-comment"></i> ${post.replyCount || 0}</span>
+                        </div>
+                    `;
+                    postsList.appendChild(postElement);
+                });
+            }
+            
+            loadPosts();
+        });
+    </script>
+</body>
+</html>

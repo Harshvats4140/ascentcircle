@@ -1,0 +1,189 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Admin Panel - The Ascent Circle</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.2/css/all.min.css">
+    <link rel="stylesheet" href="style.css">
+</head>
+<body class="dashboard-body">
+    <div class="dashboard-container">
+        <!-- ===== Sidebar Navigation ===== -->
+        <aside class="dashboard-sidebar">
+            <a href="index.html" class="sidebar-logo">
+                <img src="assets/images/ascentcirclelogo.png" alt="Logo">
+            </a>
+            <nav class="sidebar-nav">
+                <a href="#overview" class="sidebar-link active" data-target="overview"><i class="fas fa-chart-line"></i><span>Overview</span></a>
+                <a href="#users" class="sidebar-link" data-target="users"><i class="fas fa-users-cog"></i><span>Manage Users</span></a>
+                <a href="#content" class="sidebar-link" data-target="content"><i class="fas fa-check-circle"></i><span>Approve Content</span></a>
+                <a href="#events" class="sidebar-link" data-target="events"><i class="fas fa-calendar-alt"></i><span>Manage Events</span></a>
+                <a href="#jobs" class="sidebar-link" data-target="jobs"><i class="fas fa-briefcase"></i><span>Manage Jobs</span></a>
+                <a href="#wall-of-fame" class="sidebar-link" data-target="wall-of-fame"><i class="fas fa-star"></i><span>Wall of Fame</span></a>
+            </nav>
+            <div class="sidebar-footer">
+                <a href="index.html" id="logout-btn" class="sidebar-link"><i class="fas fa-sign-out-alt"></i><span>Logout</span></a>
+            </div>
+        </aside>
+
+        <!-- ===== Main Content Area ===== -->
+        <main class="dashboard-main">
+            <header class="dashboard-header">
+                <h1>Admin Control Panel</h1>
+                <p>Manage your entire community from one place.</p>
+            </header>
+
+            <!-- Overview / Analytics Section -->
+            <div id="overview" class="admin-content-pane active">
+                <div class="stats-grid">
+                    <div class="stat-card"><h4>Total Users</h4><p class="stat-number">1,250</p></div>
+                    <div class="stat-card"><h4>Pending Approvals</h4><p class="stat-number">12</p></div>
+                    <div class="stat-card"><h4>Active Events</h4><p class="stat-number">4</p></div>
+                </div>
+            </div>
+
+            <!-- User Role Management Section -->
+            <div id="users" class="admin-content-pane">
+                <div class="admin-section">
+                    <h2>User Role Management</h2>
+                    <p>Promote users to Team Members or assign new Admins. Changes are saved automatically.</p>
+                    <table class="admin-table">
+                        <thead><tr><th>User</th><th>Current Role</th><th>Points</th><th>Change Role To</th></tr></thead>
+                        <tbody id="users-table-body">
+                            <!-- User rows will be dynamically inserted here by JavaScript -->
+                            <tr><td>Priya Sharma<br><small>priya@email.com</small></td><td><span class="role-badge role-user">User</span></td><td>150</td><td><select class="role-select"><option value="user" selected>User</option><option value="team-member">Team Member</option><option value="admin">Admin</option></select></td></tr>
+                            <tr><td>Harsh<br><small>harsh@email.com</small></td><td><span class="role-badge role-team">Team</span></td><td>500</td><td><select class="role-select"><option value="user">User</option><option value="team-member" selected>Team</option><option value="admin">Admin</option></select></td></tr>
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+
+            <!-- Content Approval Section -->
+            <div id="content" class="admin-content-pane">
+                <div class="admin-section">
+                    <h2>Approve Study Materials</h2>
+                    <table class="admin-table">
+                         <thead><tr><th>Title</th><th>Uploaded By</th><th>Actions</th></tr></thead>
+                         <tbody>
+                            <tr><td>Data Structures Notes</td><td>Priya Sharma</td><td><a href="#" class="btn btn-view">View</a><button class="btn btn-approve">Approve</button><button class="btn btn-reject">Reject</button></td></tr>
+                            <tr><td>Thermodynamics Cheatsheet</td><td>Rohan Verma</td><td><a href="#" class="btn btn-view">View</a><button class="btn btn-approve">Approve</button><button class="btn btn-reject">Reject</button></td></tr>
+                         </tbody>
+                    </table>
+                </div>
+            </div>
+            
+            <!-- Event Management Section -->
+            <div id="events" class="admin-content-pane">
+                <div class="admin-section">
+                    <h2>Add New Event</h2>
+                    <form class="admin-form">
+                        <input type="text" placeholder="Event Title (e.g., Comsoc HackX)" required>
+                        <input type="text" placeholder="Location (e.g., Chandigarh University)" required>
+                        <button type="submit" class="btn btn-primary">Add Event</button>
+                    </form>
+                </div>
+            </div>
+
+             <!-- Job Management Section -->
+            <div id="jobs" class="admin-content-pane">
+                <div class="admin-section">
+                    <h2>Post New Job/Internship</h2>
+                    <form class="admin-form">
+                         <input type="text" placeholder="Job Title (e.g., Software Engineer Intern)" required>
+                         <input type="text" placeholder="Company (e.g., Google)" required>
+                         <input type="url" placeholder="Application Link" required>
+                         <button type="submit" class="btn btn-primary">Post Job</button>
+                    </form>
+                </div>
+            </div>
+
+            <!-- Wall of Fame Management Section -->
+            <div id="wall-of-fame" class="admin-content-pane">
+                <div class="admin-section">
+                    <h2>Add to Wall of Fame</h2>
+                    <form class="admin-form">
+                         <input type="text" placeholder="Member's Name (e.g., Priya Sharma)" required>
+                         <input type="text" placeholder="Achievement (e.g., Secured Internship at Google)" required>
+                         <button type="submit" class="btn btn-primary">Add to Wall</button>
+                    </form>
+                </div>
+            </div>
+
+        </main>
+    </div>
+
+    <!-- Firebase SDKs and custom script -->
+    <script src="https://www.gstatic.com/firebasejs/8.10.1/firebase-app.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/8.10.1/firebase-auth.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/8.10.1/firebase-firestore.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/8.10.1/firebase-storage.js"></script>
+    <script src="firebase.js"></script>
+    <script>
+        document.addEventListener('DOMContentLoaded', function() {
+            // --- Authentication Guard ---
+            auth.onAuthStateChanged(async (user) => {
+                if(user) {
+                    const userData = await getUserData(user.uid);
+                    if(!userData || (userData.role !== 'admin' && userData.role !== 'team-member')) {
+                        console.error('Access Denied. User is not an admin or team member.');
+                        alert('Access Denied. You do not have administrative privileges.');
+                        window.location.href = 'index.html';
+                        return;
+                    }
+                    console.log('Admin user authenticated:', userData.name);
+                } else {
+                    console.log('No user logged in. Redirecting to admin login.');
+                    window.location.href = 'admin-login.html';
+                }
+            });
+
+            // --- Tab Navigation Logic ---
+            const sidebarLinks = document.querySelectorAll('.sidebar-link');
+            const contentPanes = document.querySelectorAll('.admin-content-pane');
+
+            sidebarLinks.forEach(link => {
+                link.addEventListener('click', (e) => {
+                    // Prevent default for nav links, but allow logout
+                    if (link.id !== 'logout-btn') {
+                        e.preventDefault();
+                    }
+
+                    const targetId = link.getAttribute('data-target');
+                    if (!targetId) return; // Ignore links without a target
+
+                    // Update active link
+                    sidebarLinks.forEach(item => item.classList.remove('active'));
+                    link.classList.add('active');
+
+                    // Show target pane
+                    contentPanes.forEach(pane => {
+                        if (pane.id === targetId) {
+                            pane.style.display = 'block';
+                        } else {
+                            pane.style.display = 'none';
+                        }
+                    });
+                });
+            });
+
+            // Initialize the first tab as active
+            document.querySelector('.sidebar-link[data-target="overview"]').click();
+            
+            // --- Logout Button ---
+            const logoutBtn = document.getElementById('logout-btn');
+            if (logoutBtn) {
+                logoutBtn.addEventListener('click', async (e) => {
+                    e.preventDefault();
+                    try {
+                        await auth.signOut();
+                        window.location.href = 'index.html';
+                    } catch (error) {
+                        console.error('Logout Error:', error);
+                    }
+                });
+            }
+        });
+    </script>
+</body>
+</html>

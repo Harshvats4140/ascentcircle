@@ -1,0 +1,416 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Welcome to The Ascent Circle - Your Roadmap to Success</title>
+    
+    <!-- Google Fonts & Font Awesome -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;600;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.2/css/all.min.css">
+    
+    <!-- Link to your final stylesheet -->
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+
+    <!-- ===== Navigation Bar ===== -->
+    <!-- ===== Navigation Bar (Final & Correct Version) ===== -->
+<nav class="navbar" id="navbar">
+    <div class="container nav-container">
+        <a href="index.html" class="nav-brand"><img src="assets/images/ascentcirclelogo.png" alt="The Ascent Circle Logo" class="nav-logo"></a>
+        <ul class="nav-menu" id="nav-menu">
+            <li><a href="#journey" class="nav-link">Roadmap</a></li>
+            <li><a href="#team" class="nav-link">Team</a></li>
+            <li><a href="#events" class="nav-link">Events</a></li>
+            <li><a href="#contact" class="nav-link">Contact</a></li>
+        </ul>
+        
+        <!-- Actions for Logged-Out Users -->
+        <div class="nav-actions" id="nav-actions-logged-out">
+            <a href="login.html" class="btn btn-secondary">Login</a>
+            <a href="signup.html" class="btn btn-primary">Join for Free</a>
+        </div>
+        
+        <!-- Actions for Logged-In Users (Initially Hidden) -->
+        <div class="nav-actions" id="nav-actions-logged-in" style="display: none;">
+            <a href="dashboard.html" class="btn btn-primary">Dashboard</a>
+            <a href="#" id="logout-btn" class="nav-logout-btn" aria-label="Logout"><i class="fas fa-sign-out-alt"></i></a>
+        </div>
+        
+        <button class="nav-toggle" id="nav-toggle" aria-label="Menu"><i class="fas fa-bars"></i></button>
+    </div>
+</nav>
+
+
+    <!-- ===== Hero Section ===== -->
+    <header class="hero-section">
+        <div class="container hero-content">
+            <h1 class="hero-title">Welcome to The Ascent Circle</h1>
+            <p class="tagline">A vibrant community dedicated to fostering growth, sharing knowledge, and providing unwavering support for every member's journey.</p>
+            <div class="join-us-buttons-text">
+                <a href="#" class="join-btn-text whatsapp"><i class="fab fa-whatsapp"></i> Join on WhatsApp</a>
+                <a href="#" class="join-btn-text linkedin"><i class="fab fa-linkedin-in"></i> Join on LinkedIn</a>
+                <a href="#" class="join-btn-text instagram"><i class="fab fa-instagram"></i> Join on Instagram</a>
+            </div>
+        </div>
+    </header>
+
+    <!-- ===== Main Content ===== -->
+    <main>
+        <!-- Roadmap for Success Section -->
+        <section id="journey" class="reveal">
+            <div class="container">
+                <h2 class="section-title">Your Roadmap to Success</h2>
+                <p class="section-subtitle">A personalized journey for every stage of your academic career. Select your year to see curated goals and resources.</p>
+                <div class="tabs-nav">
+                    <button class="tab-link active" data-target="#year-1">1st Year</button><button class="tab-link" data-target="#year-2">2nd Year</button><button class="tab-link" data-target="#year-3">3rd Year</button><button class="tab-link" data-target="#year-4">4th Year</button>
+                </div>
+                <div class="tabs-content">
+                    <div class="tab-pane active" id="year-1"><h3>First Year: Foundations & Community</h3><div class="feature-grid"><div class="feature-card"><i class="fas fa-book-open"></i><h4>Core Subjects Mastery</h4><p>Join study groups and access resources for foundational subjects.</p></div><div class="feature-card"><i class="fas fa-users"></i><h4>Join a Club</h4><p>Discover and connect with clubs that match your interests.</p></div><div class="feature-card"><i class="fas fa-code"></i><h4>Intro to Coding</h4><p>Start your coding journey with beginner-friendly workshops.</p></div></div></div>
+                    <div class="tab-pane" id="year-2"><h3>Second Year: Exploration & Skill Building</h3><div class="feature-grid"><div class="feature-card"><i class="fas fa-briefcase"></i><h4>First Internship Prep</h4><p>Learn how to build a resume and cover letter that stands out.</p></div><div class="feature-card"><i class="fas fa-cogs"></i><h4>Mini-Projects</h4><p>Collaborate on small projects to apply your skills and build a portfolio.</p></div><div class="feature-card"><i class="fas fa-chalkboard-teacher"></i><h4>Peer Mentorship</h4><p>Get paired with a senior mentor for guidance and support.</p></div></div></div>
+                    <div class="tab-pane" id="year-3"><h3>Third Year: Specialization & Impact</h3><div class="feature-grid"><div class="feature-card"><i class="fas fa-star"></i><h4>Major Internships</h4><p>Access exclusive listings and get help with interview preparation.</p></div><div class="feature-card"><i class="fas fa-project-diagram"></i><h4>Impactful Projects</h4><p>Lead or contribute to significant projects and hackathons.</p></div><div class="feature-card"><i class="fas fa-file-alt"></i><h4>Competitive Programming</h4><p>Join our focused groups to sharpen your DSA skills.</p></div></div></div>
+                    <div class="tab-pane" id="year-4"><h3>Fourth Year: Placement & Transition</h3><div class="feature-grid"><div class="feature-card"><i class="fas fa-graduation-cap"></i><h4>Full-Time Placement</h4><p>Targeted company prep sessions and mock interviews.</p></div><div class="feature-card"><i class="fas fa-user-tie"></i><h4>Final Year Project</h4><p>Get guidance and collaborate on your capstone project.</p></div><div class="feature-card"><i class="fas fa-hands-helping"></i><h4>Become a Mentor</h4><p>Give back to the community by mentoring junior students.</p></div></div></div>
+                </div>
+            </div>
+        </section>
+
+<!-- ===== NEW: Feature Showcase Section ===== -->
+<section id="features" class="features-section reveal">
+    <div class="container">
+        <h2 class="section-title">Explore the Community Hub</h2>
+        <p class="section-subtitle">Powerful tools and resources, built exclusively for our members.</p>
+        <div class="feature-preview-grid">
+            
+            <!-- Feature Panel 1: Discussion Hub -->
+            <div class="feature-preview-card">
+                <i class="fas fa-comments"></i>
+                <h3>Discussion Hub</h3>
+                <p>Ask questions, share knowledge, and solve problems with a community of peers and mentors.</p>
+                <!-- This link has the data-auth-required attribute -->
+                <a href="forum.html" class="btn btn-secondary" data-auth-required="true">Join the Conversation</a>
+            </div>
+            
+            <!-- Feature Panel 2: Project Incubator -->
+            <div class="feature-preview-card">
+                <i class="fas fa-project-diagram"></i>
+                <h3>Project Incubator</h3>
+                <p>Find collaborators, brainstorm ideas, and build impressive projects for your portfolio.</p>
+                <a href="projects.html" class="btn btn-secondary" data-auth-required="true">Find a Project</a>
+            </div>
+            
+            <!-- Feature Panel 3: Resource Marketplace -->
+            <div class="feature-preview-card">
+                <i class="fas fa-book-open"></i>
+                <h3>Resource Marketplace</h3>
+                <p>Access a curated library of high-quality notes, guides, and study materials shared by members.</p>
+                <a href="resources.html" class="btn btn-secondary" data-auth-required="true">Browse Resources</a>
+            </div>
+            
+        </div>
+    </div>
+</section>
+
+        <!-- Events Section with Proper Panels -->
+     <!-- ===== Events Section (Final & Correct Version with Images) ===== -->
+<section id="events" class="events-section reveal">
+    <div class="container">
+        <h2 class="section-title">Community Events & Partnerships</h2>
+        <div class="event-panels">
+            <div class="event-panel">
+                <h3>Past Events</h3>
+                <p>A look at some of our successful past collaborations.</p>
+                <div class="event-grid-img">
+                    <div class="event-card-img">
+                        <img src="assets/images/hackhazards.jpg" alt="HackHazards Event" class="event-image">
+                        <div class="event-content">
+                            <span class="event-tag">Partnership</span>
+                            <h4>HackHazards & MIH 3.0 (Online)</h4>
+                            <p class="event-date">Microsoft, Gurgaon</p>
+                        </div>
+                    </div>
+                    <div class="event-card-img">
+                        <img src="assets/images/hackamania.jpg" alt="Hackamania Event" class="event-image">
+                        <div class="event-content">
+                            <span class="event-tag">Partnership</span>
+                            <h4>Hackamania</h4>
+                            <p class="event-date">Microsoft, Gurgaon</p>
+                        </div>
+                    </div>
+                    <div class="event-card-img">
+                        <img src="assets/images/bnbhack.jpg" alt="BNB Hack Event" class="event-image">
+                        <div class="event-content">
+                            <span class="event-tag">Partnership</span>
+                            <h4>BNB Hack</h4>
+                            <p class="event-date">IIT Delhi</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="event-panel">
+                <h3>Upcoming Events</h3>
+                <p>Get ready for these exciting events where we are partners.</p>
+                <div class="event-grid-img">
+                    <div class="event-card-img">
+                        <img src="assets/images/comsochackx.jpg" alt="Comsoc HackX" class="event-image">
+                        <div class="event-content">
+                            <span class="event-tag upcoming">Upcoming</span>
+                            <h4>Comsoc HackX</h4>
+                            <p class="event-date">Chandigarh University</p>
+                            <a href="signup.html" class="btn btn-primary btn-small">Register</a>
+                        </div>
+                    </div>
+                    <div class="event-card-img">
+                        <img src="assets/images/statusofcode.jpg" alt="Status of Code" class="event-image">
+                        <div class="event-content">
+                            <span class="event-tag upcoming">Upcoming</span>
+                            <h4>Status of Code</h4>
+                            <p class="event-date">IIIT Kalyani</p>
+                            <a href="signup.html" class="btn btn-primary btn-small">Register</a>
+                        </div>
+                    </div>
+                    <div class="event-card-img">
+                        <img src="assets/images/codeclash.jpg" alt="CodeClash" class="event-image">
+                        <div class="event-content">
+                            <span class="event-tag upcoming">Upcoming</span>
+                            <h4>CodeClash</h4>
+                            <p class="event-date">Google, Gurgaon</p>
+                            <a href="signup.html" class="btn btn-primary btn-small">Register</a>
+                        </div>
+                    </div>
+                    <div class="event-card-img">
+                        <img src="assets/images/codeforbharat.jpg" alt="Code for Bharat" class="event-image">
+                        <div class="event-content">
+                            <span class="event-tag upcoming">Upcoming</span>
+                            <h4>Code for Bharat</h4>
+                            <p class="event-date">Microsoft, Noida</p>
+                            <a href="signup.html" class="btn btn-primary btn-small">Register</a>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+
+
+        
+        <!-- Meet the Team Section (Fully Detailed) -->
+        <section id="team" class="team-section reveal">
+            <div class="container">
+                <h2 class="section-title">Meet Our Team</h2>
+                <p class="section-subtitle">The passionate individuals dedicated to the success of The Ascent Circle community.</p>
+                <div class="team-grid-detailed">
+                    <div class="team-card-detailed"><img src="assets/images/harshimg.jpg" alt="Photo of Harsh" class="team-photo"><div class="team-info"><h3>Harsh</h3><p class="role">Founder</p><p class="description">Dedicated to fostering a community of learners and leaders. Expert in Community Management and Leadership.</p><div class="social-links"><a href="#" target="_blank" aria-label="Harsh's Instagram"><i class="fab fa-instagram"></i></a><a href="#" target="_blank" aria-label="Harsh's LinkedIn"><i class="fab fa-linkedin-in"></i></a></div></div></div>
+                    <div class="team-card-detailed"><img src="assets/images/mayankimg.jpg" alt="Photo of Mayank Agarwal" class="team-photo"><div class="team-info"><h3>Mayank Agarwal</h3><p class="role">Community Admin</p><p class="description">Dedicated to providing a great experience for our members and offering support whenever it's needed. Manages events and engagement.</p><div class="social-links"><a href="#" target="_blank" aria-label="Mayank's Instagram"><i class="fab fa-instagram"></i></a><a href="#" target="_blank" aria-label="Mayank's LinkedIn"><i class="fab fa-linkedin-in"></i></a></div></div></div>
+                    <div class="team-card-detailed"><img src="assets/images/sumanshuimg.jpg" alt="Photo of Sumanshu Jindal" class="team-photo"><div class="team-info"><h3>Sumanshu Jindal</h3><p class="role">Community Admin</p><p class="description">Provides essential academic information and manages student support. Sumanshu ensures our community runs smoothly and stays engaged.</p><div class="social-links"><a href="#" target="_blank" aria-label="Sumanshu's Instagram"><i class="fab fa-instagram"></i></a><a href="#" target="_blank" aria-label="Sumanshu's LinkedIn"><i class="fab fa-linkedin-in"></i></a></div></div></div>
+                     <div class="team-card-detailed"><img src="assets/images/subhashimg.jpeg" alt="Photo of Subhash Malik" class="team-photo"><div class="team-info"><h3>Subhash Malik</h3><p class="role">Head of Events & Hackathons</p><p class="description">Offers detailed guidance for hackathons and provides all the essential event information to ensure participants are well-informed and prepared for success.</p><div class="social-links"><a href="#" target="_blank" aria-label="Subhash's Instagram"><i class="fab fa-instagram"></i></a><a href="#" target="_blank" aria-label="Subhash's LinkedIn"><i class="fab fa-linkedin-in"></i></a></div></div></div>
+                    <div class="team-card-detailed"><img src="assets/images/tanyaimg.jpg" alt="Photo of Tanya" class="team-photo"><div class="team-info"><h3>Tanya</h3><p class="role">Community Manager</p><p class="description">Provides personalized guidance and maintains community discipline to ensure a supportive space for learning.</p><div class="social-links"><a href="#" target="_blank" aria-label="Ayush's Instagram"><i class="fab fa-instagram"></i></a><a href="#" target="_blank" aria-label="Ayush's LinkedIn"><i class="fab fa-linkedin-in"></i></a></div></div></div>
+                   
+                </div>
+            </div>
+        </section>
+
+       <!-- ===== Get in Touch Section (Final & Dynamic Version) ===== -->
+<section id="contact" class="form-section reveal">
+    <div class="container">
+        <h2 class="section-title">Get in Touch</h2>
+        <p class="section-subtitle">Have feedback, a partnership proposal, or a general question? We'd love to hear from you.</p>
+        
+        <form id="contact-form" class="contact-form-container">
+            <div class="form-group">
+                <label for="contact-reason">Inquiry Type</label>
+                <select id="contact-reason" required>
+                    <option value="" disabled selected>Please select a reason...</option>
+                    <option value="question">Ask a Question</option>
+                    <option value="feedback">Share Feedback</option>
+                    <option value="proposal">Partnership Proposal</option>
+                </select>
+            </div>
+
+            <!-- Fields for "Ask a Question" (Initially Hidden) -->
+            <div id="question-fields" class="form-fields" style="display: none;">
+                <div class="form-row">
+                    <div class="form-group"><label for="q-name">Your Name</label><input type="text" id="q-name" placeholder="Enter your name"></div>
+                    <div class="form-group"><label for="q-email">Your Email</label><input type="email" id="q-email" placeholder="Enter your email"></div>
+                </div>
+                <div class="form-row">
+                    <div class="form-group"><label for="q-course">Your Course Name</label><input type="text" id="q-course" placeholder="e.g., Computer Science"></div>
+                    <div class="form-group"><label for="q-class">Your Class/Year</label><input type="text" id="q-class" placeholder="e.g., 2nd Year"></div>
+                </div>
+                <div class="form-group"><label for="q-phone">Your Phone (Optional)</label><input type="tel" id="q-phone"></div>
+                <div class="form-group"><label for="q-message">Your Question</label><textarea id="q-message" rows="5" placeholder="Type your detailed question here..."></textarea></div>
+            </div>
+
+            <!-- Fields for "Share Feedback" (Initially Hidden) -->
+            <div id="feedback-fields" class="form-fields" style="display: none;">
+                <div class="form-group"><label for="f-name">Your Name (Optional)</label><input type="text" id="f-name"></div>
+                <div class="form-group"><label for="f-reason">Reason for Feedback</label><input type="text" id="f-reason" placeholder="e.g., Website UI, Event Suggestion"></div>
+                <div class="form-group"><label for="f-how">How can we improve?</label><textarea id="f-how" rows="3" placeholder="Your valuable suggestions..."></textarea></div>
+                <div class="form-group"><label for="f-detail">Detailed Feedback</label><textarea id="f-detail" rows="5"></textarea></div>
+            </div>
+
+            <!-- Fields for "Partnership Proposal" (Initially Hidden) -->
+            <div id="proposal-fields" class="form-fields" style="display: none;">
+                <div class="form-row">
+                    <div class="form-group"><label for="p-poc-name">Contact Person Name</label><input type="text" id="p-poc-name"></div>
+                    <div class="form-group"><label for="p-phone">Contact Phone Number</label><input type="tel" id="p-phone"></div>
+                </div>
+                <div class="form-group"><label for="p-college">Your College/Organization</label><input type="text" id="p-college"></div>
+                <div class="form-group"><label for="p-detail">Partnership Details</label><textarea id="p-detail" rows="5" placeholder="Describe your proposal..."></textarea></div>
+            </div>
+            
+            <!-- This area will only appear after a selection is made -->
+            <div id="common-submit-area" style="display: none;">
+                <button type="submit" class="btn btn-primary">Send Message</button>
+                <div class="form-message" id="contact-form-message"></div>
+            </div>
+        </form>
+    </div>
+</section>
+
+    <!-- ===== Footer ===== -->
+    <footer>
+        <div class="footer-bottom">
+            <p>&copy; 2025 The Ascent Circle. All Rights Reserved. | <a href="admin-login.html">Admin Login</a></p>
+        </div>
+    </footer>
+  <script src="https://www.gstatic.com/firebasejs/8.10.1/firebase-app.js"></script>
+<script src="https://www.gstatic.com/firebasejs/8.10.1/firebase-auth.js"></script>
+<script src="https://www.gstatic.com/firebasejs/8.10.1/firebase-firestore.js"></script>
+<script src="https://www.gstatic.com/firebasejs/8.10.1/firebase-storage.js"></script>
+<script src="firebase.js"></script>
+<script>
+    document.addEventListener('DOMContentLoaded', function() {
+        const loggedOutNav = document.getElementById('nav-actions-logged-out');
+        const loggedInNav = document.getElementById('nav-actions-logged-in');
+        const logoutBtn = document.getElementById('logout-btn');
+        const contactForm = document.getElementById('contact-form');
+        const contactReasonSelect = document.getElementById('contact-reason');
+        const questionFields = document.getElementById('question-fields');
+        const feedbackFields = document.getElementById('feedback-fields');
+        const proposalFields = document.getElementById('proposal-fields');
+        const submitArea = document.getElementById('common-submit-area');
+        const navbar = document.getElementById('navbar');
+        const navToggle = document.getElementById('nav-toggle');
+        const navMenu = document.getElementById('nav-menu');
+        const tabLinks = document.querySelectorAll('.tab-link');
+        const tabPanes = document.querySelectorAll('.tab-pane');
+
+       // ===== REPLACE your existing "auth" block with this complete version =====
+
+if (typeof auth !== 'undefined') {
+    auth.onAuthStateChanged(user => {
+        const isLoggedIn = !!user; // This is a clean way to get a true/false value for the login state.
+
+        // --- Part 1: Update the Navigation Buttons (Your existing logic) ---
+        if (isLoggedIn) {
+            if (loggedOutNav) loggedOutNav.style.display = 'none';
+            if (loggedInNav) {
+                loggedInNav.style.display = 'flex';
+                loggedInNav.classList.add('fade-in');
+            }
+        } else {
+            if (loggedOutNav) loggedOutNav.style.display = 'flex';
+            if (loggedInNav) loggedInNav.style.display = 'none';
+        }
+
+        // --- Part 2: Update Protected Links on the Page (The New Logic) ---
+        // First, find all links that have our special 'data-auth-required' attribute.
+        const protectedLinks = document.querySelectorAll('[data-auth-required="true"]');
+        
+        // Loop through each of these links
+        protectedLinks.forEach(link => {
+            // To be safe, we'll store the link's original destination if we haven't already.
+            if (!link.dataset.originalHref) {
+                link.dataset.originalHref = link.href;
+            }
+
+            if (isLoggedIn) {
+                // If the user IS logged in, make sure the link points to its real destination (e.g., projects.html).
+                link.href = link.dataset.originalHref;
+            } else {
+                // If the user is NOT logged in, change the link's destination to login.html.
+                link.href = 'login.html';
+            }
+        });
+    });
+}
+
+       // ===== REPLACE your existing "Contact Form Submission" block with this complete version =====
+// ===== REPLACE your existing "Contact Form Submission" block with this complete version =====
+
+if (contactForm) {
+    contactForm.addEventListener('submit', async (e) => {
+        e.preventDefault();
+        const submitButton = contactForm.querySelector('button[type="submit"]');
+        const messageEl = document.getElementById('contact-form-message');
+        const selectedValue = contactReasonSelect.value;
+
+        // --- 1. Show a loading state to the user ---
+        submitButton.disabled = true;
+        submitButton.textContent = 'Sending...';
+        messageEl.style.display = 'none'; // Hide any previous messages
+
+        // --- 2. Create a data object with common properties ---
+        let inquiryData = {
+            type: selectedValue,
+            status: 'new', // Useful for filtering in the admin panel
+            createdAt: firebase.firestore.FieldValue.serverTimestamp()
+        };
+
+        // --- 3. Collect the specific data based on the selected inquiry type ---
+        if (selectedValue === 'question') { Object.assign(inquiryData, { name: document.getElementById('q-name').value, email: document.getElementById('q-email').value, course: document.getElementById('q-course').value, class: document.getElementById('q-class').value, phone: document.getElementById('q-phone').value, message: document.getElementById('q-message').value }); }
+        else if (selectedValue === 'feedback') { Object.assign(inquiryData, { name: document.getElementById('f-name').value, reason: document.getElementById('f-reason').value, improvement: document.getElementById('f-how').value, details: document.getElementById('f-detail').value }); }
+        else if (selectedValue === 'proposal') { Object.assign(inquiryData, { pocName: document.getElementById('p-poc-name').value, phone: document.getElementById('p-phone').value, organization: document.getElementById('p-college').value, details: document.getElementById('p-detail').value }); }
+
+        try {
+            // --- 4. Save the data to Firestore ---
+            await db.collection("inquiries").add(inquiryData);
+
+            // --- 5. Show a professional success message ---
+            messageEl.className = 'form-message success';
+            messageEl.innerHTML = `<i class="fas fa-check-circle"></i> Thank you! Your message has been sent.`;
+            messageEl.style.display = 'flex';
+            
+            // --- HIDE ONLY THE BUTTON, NOT THE ENTIRE AREA ---
+            submitButton.style.display = 'none';
+            
+            contactForm.reset();
+            questionFields.style.display = 'none';
+            feedbackFields.style.display = 'none';
+            proposalFields.style.display = 'none';
+            // DO NOT HIDE THE SUBMIT AREA HERE. This was the bug.
+
+        } catch (error) {
+            // --- 6. Show an error message if something goes wrong ---
+            messageEl.className = 'form-message error';
+            messageEl.innerHTML = `<i class="fas fa-exclamation-triangle"></i> Something went wrong. Please try again later.`;
+            messageEl.style.display = 'flex';
+            console.error("Error adding document to Firestore: ", error);
+        } finally {
+            // --- 7. Reset the form state after a delay ---
+            setTimeout(() => {
+                messageEl.style.display = 'none'; // Hide the message
+                submitArea.style.display = 'none'; // Now hide the entire submit area
+                submitButton.style.display = 'block'; // Make the button visible again for next time
+                submitButton.disabled = false; // Re-enable the button
+                submitButton.textContent = 'Send Message';
+            }, 6000); // Hide message and reset form after 6 seconds
+        }
+    });
+}
+
+        const revealObserver = new IntersectionObserver((entries, observer) => {
+            entries.forEach(entry => {
+                if (entry.isIntersecting) {
+                    entry.target.classList.add('active');
+                    observer.unobserve(entry.target);
+                }
+            });
+        }, { threshold: 0.1 });
+        document.querySelectorAll('.reveal').forEach(el => revealObserver.observe(el));
+    });
+</script>

@@ -1,0 +1,95 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Admin Login - The Ascent Circle</title>
+    
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;600;700&display=swap" rel="stylesheet">
+    
+    <link rel="stylesheet" href="style.css">
+</head>
+<body class="auth-page">
+
+    <div class="auth-container">
+        <a href="index.html" class="auth-logo-link">
+            <img src="assets/images/ascentcirclelogo.png" alt="The Ascent Circle Logo" class="auth-logo">
+        </a>
+        
+        <h2>Administrator Access</h2>
+        <p>Please enter your administrative credentials.</p>
+        
+        <form id="admin-login-form">
+            <div class="form-group">
+                <label for="email">Admin Email</label>
+                <input type="email" id="email" placeholder="you@example.com" required>
+            </div>
+            <div class="form-group">
+                <label for="password">Password</label>
+                <input type="password" id="password" placeholder="••••••••" required>
+            </div>
+            <button type="submit" class="btn btn-primary btn-full">Login as Admin</button>
+        </form>
+        
+        <div id="error-message" class="error-message"></div>
+        
+        <div class="auth-switch">
+            <p>Not an admin? <a href="login.html">Return to user login</a>.</p>
+        </div>
+    </div>
+
+    <!-- Firebase SDKs -->
+    <script src="https://www.gstatic.com/firebasejs/8.10.1/firebase-app.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/8.10.1/firebase-auth.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/8.10.1/firebase-firestore.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/8.10.1/firebase-storage.js"></script>
+    
+    <!-- Your custom Firebase config file -->
+    <script src="firebase.js"></script>
+    
+    <!-- Page-specific JavaScript for authentication logic -->
+    <script>
+        document.addEventListener('DOMContentLoaded', () => {
+            const adminLoginForm = document.getElementById('admin-login-form');
+            const errorMessageDiv = document.getElementById('error-message');
+
+            adminLoginForm.addEventListener('submit', async (e) => {
+                e.preventDefault();
+                errorMessageDiv.textContent = ''; // Clear previous errors
+                
+                const email = document.getElementById('email').value.trim();
+                const password = document.getElementById('password').value;
+
+                try {
+                    // Step 1: Authenticate with Firebase Auth
+                    const userCredential = await auth.signInWithEmailAndPassword(email, password);
+                    const user = userCredential.user;
+
+                    if (user) {
+                        // Step 2: Verify role in Firestore
+                        const userData = await getUserData(user.uid);
+
+                        if (userData && (userData.role === 'admin' || userData.role === 'team')) {
+                            // Role is valid, redirect to the admin panel
+                            window.location.href = 'admin.html';
+                        } else {
+                            // Role is invalid, sign out the user and show an error
+                            await auth.signOut();
+                            errorMessageDiv.textContent = 'Access Denied. You do not have administrative privileges.';
+                        }
+                    }
+                } catch (error) {
+                    // Handle Firebase authentication errors (e.g., wrong password)
+                    if (error.code === 'auth/user-not-found' || error.code === 'auth/wrong-password') {
+                        errorMessageDiv.textContent = 'Invalid credentials. Please try again.';
+                    } else {
+                        errorMessageDiv.textContent = 'An unexpected error occurred. Please try again later.';
+                    }
+                }
+            });
+        });
+    </script>
+</body>
+</html>

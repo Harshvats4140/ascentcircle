@@ -1,0 +1,175 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Login - The Ascent Circle</title>
+    
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;600;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.2/css/all.min.css">
+    
+    <link rel="stylesheet" href="style.css">
+</head>
+<body class="auth-page">
+
+    <div class="auth-container">
+        <a href="index.html" class="auth-logo-link">
+            <img src="assets/images/ascentcirclelogo.png" alt="The Ascent Circle Logo" class="auth-logo">
+        </a>
+        
+        <h2>Welcome Back!</h2>
+        <p>Log in to access your dashboard and resources.</p>
+        
+        <div class="social-login-container">
+            <button id="google-login-btn" class="social-btn google-btn"><i class="fab fa-google"></i> Sign in with Google</button>
+        </div>
+
+        <div class="separator"><span>OR</span></div>
+
+        <form id="login-form">
+            <div class="form-group">
+                <label for="email">Email Address</label>
+                <input type="email" id="email" placeholder="you@example.com" required>
+            </div>
+            <div class="form-group">
+                <label for="password">Password</label>
+                <input type="password" id="password" placeholder="••••••••" required>
+            </div>
+            <button type="submit" class="btn btn-primary btn-full">Login with Email</button>
+        </form>
+        
+        <div id="phone-auth-container" class="phone-auth-container">
+            <div id="phone-entry-view">
+                <div class="separator"><span>OR</span></div>
+                <form id="phone-form">
+                    <div class="form-group">
+                        <label for="phone-number">Sign in with Phone</label>
+                        <input type="tel" id="phone-number" placeholder="Enter phone number (e.g., +91...)" required>
+                    </div>
+                    <button type="submit" class="btn btn-secondary btn-full">Send Verification Code</button>
+                </form>
+            </div>
+            <div id="code-entry-view" style="display:none;">
+                <p>We've sent a code to your phone. Please enter it below.</p>
+                <form id="code-form">
+                    <div class="form-group">
+                        <label for="verification-code">Verification Code</label>
+                        <input type="text" id="verification-code" placeholder="6-digit code" required>
+                    </div>
+                    <button type="submit" class="btn btn-primary btn-full">Verify & Login</button>
+                </form>
+            </div>
+        </div>
+        
+        <div id="recaptcha-container"></div>
+        <div id="error-message" class="error-message"></div>
+        
+        <div class="auth-switch">
+            <p>Don't have an account? <a href="signup.html">Sign Up</a></p>
+        </div>
+    </div>
+
+    <script src="https://www.gstatic.com/firebasejs/8.10.1/firebase-app.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/8.10.1/firebase-auth.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/8.10.1/firebase-firestore.js"></script>
+    <script src="firebase.js"></script>
+    
+    <script>
+        document.addEventListener('DOMContentLoaded', () => {
+            const auth = firebase.auth();
+            const db = firebase.firestore();
+            const errorMessageDiv = document.getElementById('error-message');
+
+            async function handleSuccessfulLogin(user) {
+                const userDoc = await db.collection('users').doc(user.uid).get();
+                const userData = userDoc.data();
+                
+                if (userData && (userData.role === 'admin' || userData.role === 'team')) {
+                    window.location.href = 'admin.html';
+                } else {
+                    window.location.href = 'dashboard.html';
+                }
+            }
+
+            document.getElementById('login-form').addEventListener('submit', async (e) => {
+                e.preventDefault();
+                errorMessageDiv.textContent = '';
+                const email = document.getElementById('email').value.trim();
+                const password = document.getElementById('password').value;
+
+                if (!email || !password) {
+                    errorMessageDiv.textContent = 'Email and password are required.';
+                    return;
+                }
+
+                try {
+                    const userCredential = await auth.signInWithEmailAndPassword(email, password);
+                    await handleSuccessfulLogin(userCredential.user);
+                } catch (error) {
+                    errorMessageDiv.textContent = 'Invalid credentials. Please try again.';
+                }
+            });
+
+            document.getElementById('google-login-btn').addEventListener('click', async () => {
+                errorMessageDiv.textContent = '';
+                const provider = new firebase.auth.GoogleAuthProvider();
+                try {
+                    const result = await auth.signInWithPopup(provider);
+                    const user = result.user;
+                    const userDoc = await db.collection('users').doc(user.uid).get();
+
+                    if (!userDoc.exists) {
+                        await db.collection('users').doc(user.uid).set({
+                            name: user.displayName, email: user.email, phone: user.phoneNumber || '',
+                            role: 'user', points: 0, year: '1', course: 'Not Specified',
+                            createdAt: firebase.firestore.FieldValue.serverTimestamp()
+                        });
+                    }
+                    await handleSuccessfulLogin(user);
+                } catch (error) {
+                    errorMessageDiv.textContent = `Google Sign-in Error: ${error.message}`;
+                }
+            });
+
+            window.recaptchaVerifier = new firebase.auth.RecaptchaVerifier('recaptcha-container', { 'size': 'invisible' });
+
+            document.getElementById('phone-form').addEventListener('submit', async (e) => {
+                e.preventDefault();
+                errorMessageDiv.textContent = '';
+                const phoneNumber = document.getElementById('phone-number').value;
+                try {
+                    window.confirmationResult = await auth.signInWithPhoneNumber(phoneNumber, window.recaptchaVerifier);
+                    document.getElementById('phone-entry-view').style.display = 'none';
+                    document.getElementById('code-entry-view').style.display = 'block';
+                } catch (error) {
+                    errorMessageDiv.textContent = 'Could not send code. Check phone number format.';
+                    window.recaptchaVerifier.render().then(widgetId => grecaptcha.reset(widgetId));
+                }
+            });
+
+            document.getElementById('code-form').addEventListener('submit', async (e) => {
+                e.preventDefault();
+                errorMessageDiv.textContent = '';
+                const code = document.getElementById('verification-code').value;
+                try {
+                    const result = await window.confirmationResult.confirm(code);
+                    const user = result.user;
+                    const userDoc = await db.collection('users').doc(user.uid).get();
+                     if (!userDoc.exists) {
+                        await db.collection('users').doc(user.uid).set({
+                            name: 'New Member', email: '', phone: user.phoneNumber,
+                            role: 'user', points: 0, year: '1', course: 'Not Specified',
+                            createdAt: firebase.firestore.FieldValue.serverTimestamp()
+                        });
+                    }
+                    await handleSuccessfulLogin(user);
+                } catch (error) {
+                    errorMessageDiv.textContent = 'Invalid verification code. Please try again.';
+                }
+            });
+        });
+    </script>
+</body>
+</html>

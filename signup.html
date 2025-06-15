@@ -1,0 +1,140 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Sign Up - The Ascent Circle</title>
+    
+    <!-- Google Fonts (Poppins) -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;600;700&display=swap" rel="stylesheet">
+    
+    <!-- Link to your final stylesheet -->
+    <link rel="stylesheet" href="style.css">
+</head>
+<body class="auth-page">
+
+    <div class="auth-container">
+        <a href="index.html" class="auth-logo-link">
+            <img src="assets/images/ascentcirclelogo.png" alt="The Ascent Circle Logo" class="auth-logo">
+        </a>
+        
+        <h2>Join The Community</h2>
+        <p>Create an account to unlock your roadmap to success.</p>
+        
+        <form id="signup-form">
+            <div class="form-group">
+                <label for="name">Full Name</label>
+                <input type="text" id="name" placeholder="Priya Sharma" required>
+            </div>
+            <div class="form-group">
+                <label for="email">Email Address</label>
+                <input type="email" id="email" placeholder="priya@example.com" required>
+            </div>
+            <div class="form-group">
+                <label for="phone">Phone Number</label>
+                <input type="tel" id="phone" placeholder="+91-9876543210" required>
+            </div>
+            
+            <div class="form-group">
+                <label for="course">Course / Major</label>
+                <select id="course" required>
+                    <option value="" disabled selected>Select your course</option>
+                    <option value="Computer Science & Engineering">Computer Science & Engineering</option>
+                    <option value="Information Technology">Information Technology</option>
+                    <option value="Electronics & Communication">Electronics & Communication</option>
+                    <option value="Mechanical Engineering">Mechanical Engineering</option>
+                    <option value="Civil Engineering">Civil Engineering</option>
+                    <option value="Electrical Engineering">Electrical Engineering</option>
+                    <option value="Other">Other</option>
+                </select>
+            </div>
+
+            <div class="form-group">
+                <label for="year">Academic Year</label>
+                <select id="year" required>
+                    <option value="" disabled selected>Select your year</option>
+                    <option value="1">1st Year</option>
+                    <option value="2">2nd Year</option>
+                    <option value="3">3rd Year</option>
+                    <option value="4">4th Year</option>
+                </select>
+            </div>
+            <div class="form-group">
+                <label for="password">Create Password</label>
+                <input type="password" id="password" placeholder="Minimum 6 characters" required>
+            </div>
+            <button type="submit" class="btn btn-primary btn-full">Create Account</button>
+        </form>
+        
+        <div id="error-message" class="error-message"></div>
+        
+        <div class="auth-switch">
+            <p>Already have an account? <a href="login.html">Login</a></p>
+        </div>
+    </div>
+
+    <!-- Firebase SDKs -->
+    <script src="https://www.gstatic.com/firebasejs/8.10.1/firebase-app.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/8.10.1/firebase-auth.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/8.10.1/firebase-firestore.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/8.10.1/firebase-storage.js"></script>
+    
+    <!-- Your custom Firebase config and helper functions -->
+    <script src="firebase.js"></script>
+    
+    <!-- Page-specific JavaScript for signup logic -->
+    <script>
+        document.addEventListener('DOMContentLoaded', () => {
+            const signupForm = document.getElementById('signup-form');
+            const errorMessageDiv = document.getElementById('error-message');
+
+            signupForm.addEventListener('submit', async (e) => {
+                e.preventDefault();
+                errorMessageDiv.textContent = ''; // Clear previous errors
+
+                // Get all form values
+                const name = document.getElementById('name').value.trim();
+                const email = document.getElementById('email').value.trim();
+                const phone = document.getElementById('phone').value.trim();
+                const course = document.getElementById('course').value;
+                const year = document.getElementById('year').value;
+                const password = document.getElementById('password').value;
+
+                // Simple client-side validation
+                if (!name || !email || !phone || !course || !year || !password) {
+                    errorMessageDiv.textContent = 'Please fill out all fields.';
+                    return;
+                }
+                if (password.length < 6) {
+                    errorMessageDiv.textContent = 'Password must be at least 6 characters long.';
+                    return;
+                }
+
+                try {
+                    // Use the helper function from firebase.js, passing all required fields
+                    await signUpUser(name, email, phone, course, year, password);
+                    
+                    // On success, notify the user and redirect to the login page
+                    alert('Account created successfully! Please proceed to login.');
+                    window.location.href = 'login.html';
+
+                } catch (error) {
+                    // Handle specific Firebase errors for a better user experience
+                    console.error('Signup Error:', error);
+                    if (error.code === 'auth/email-already-in-use') {
+                        errorMessageDiv.textContent = 'This email address is already registered. Please login instead.';
+                    } else if (error.code === 'auth/invalid-email') {
+                        errorMessageDiv.textContent = 'Please enter a valid email address.';
+                    } else if (error.code === 'auth/weak-password') {
+                         errorMessageDiv.textContent = 'Password is too weak. Please choose a stronger password.';
+                    } else {
+                        errorMessageDiv.textContent = 'An unexpected error occurred. Please try again.';
+                    }
+                }
+            });
+        });
+    </script>
+</body>
+</html>
